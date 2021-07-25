@@ -2,15 +2,26 @@ package com.apifut.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import com.apifut.util.enums.PosicaoEnum;
+import com.sun.istack.NotNull;
 
+@Entity
 public class Jogador implements Serializable{
-
-
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@NotNull
 	private String nome;
+	@Enumerated(EnumType.STRING)
 	private PosicaoEnum posicao;
 	private Time time;
 	private Integer numero;
