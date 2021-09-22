@@ -9,7 +9,7 @@ import com.apifut.entities.Time;
 import com.apifut.util.enums.PosicaoEnum;
 
 @Service
-public class JogadorConvertService {
+public class ConvertService {
 
 	public Jogador convertJogadorDTOtoEntity(JogadorDTO dto) {
 		
@@ -50,7 +50,7 @@ public class JogadorConvertService {
 		
 	}
 	
-	public TimeDTO convertTimeEntityToJogadorDTO(Time t) {
+	public TimeDTO convertEntityToTimeDTO(Time t) {
 				
 		TimeDTO dto = new TimeDTO();
 		

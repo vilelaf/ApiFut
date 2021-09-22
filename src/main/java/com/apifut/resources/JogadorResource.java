@@ -1,10 +1,7 @@
 package com.apifut.resources;
 
-import java.net.http.HttpResponse.ResponseInfo;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -24,9 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.apifut.DTO.JogadorDTO;
 import com.apifut.entities.Jogador;
 import com.apifut.entities.Response;
-import com.apifut.entities.Time;
-
-import com.apifut.services.JogadorConvertService;
+import com.apifut.services.ConvertService;
 import com.apifut.services.JogadorService;
 
 @RestController
@@ -34,7 +29,7 @@ import com.apifut.services.JogadorService;
 public class JogadorResource {
 
 	@Autowired
-	private JogadorConvertService c; 
+	private ConvertService c; 
 	@Autowired
 	private JogadorService service;
 	

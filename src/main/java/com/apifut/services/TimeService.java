@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.apifut.entities.Time;
 import com.apifut.repositories.TimeRepository;
+import com.apifut.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class TimeService {
@@ -19,9 +20,9 @@ public class TimeService {
 		return repository.save(time);
 	}
 	
-	public Optional<Time> findById(Long id) {
+	public Time findById(Long id) {
 		Optional <Time> time = repository.findById(id);
-		return time;
+		return time.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	public Optional <Time> findByNome(String nome){
 		return repository.findByNomeEquals(nome);
