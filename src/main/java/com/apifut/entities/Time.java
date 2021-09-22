@@ -1,7 +1,10 @@
 package com.apifut.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,38 +12,41 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
-// Resolver como vai ser a situação da lista de times
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
-public class Time implements Serializable{
+@Table(name = "times") 
+public class Time implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private String formacao;
-	@JoinColumn(name = "jogadores")
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Jogador> convocados;
 
-	
+	@OneToMany(mappedBy = "time")
+	private Set<Jogador> jogadores = new HashSet();
 
-	public Time(Long id, String nome, String formacao, List<Jogador> convocados) {
+	public Time(Long id, String nome, String formacao) {
 
 		this.id = id;
 		this.nome = nome;
 		this.formacao = formacao;
-		this.convocados = convocados;
+		
 	}
 
 	public Time() {
 		
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -64,6 +70,14 @@ public class Time implements Serializable{
 	public void setFormacao(String formacao) {
 		this.formacao = formacao;
 	}
+
 	
-	
+	public Set<Jogador> getJogadores() {
+		Set <Jogador> set = new HashSet();
+		for (Jogador j : jogadores) {
+			set.add(j);
+		}
+		return set;
+	}
+
 }

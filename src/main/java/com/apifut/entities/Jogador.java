@@ -8,11 +8,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.apifut.util.enums.PosicaoEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 @Entity
+@Table(name = "jogadores")
 public class Jogador implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -23,19 +28,22 @@ public class Jogador implements Serializable{
 	private String nome;
 	@Enumerated(EnumType.STRING)
 	private PosicaoEnum posicao;
+	
+	@ManyToOne
+	@JoinColumn(name="time_id")
 	private Time time;
+	
 	private Integer numero;
 	
 	public Jogador() {
 	
 	}
 	
-	public Jogador(Long id, String nome, PosicaoEnum posicao, Time time, Integer numero) {
+	public Jogador(Long id, String nome, PosicaoEnum posicao, Integer numero) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.posicao = posicao;
-		this.time = time;
 		this.numero = numero;
 	}
 	
@@ -58,6 +66,8 @@ public class Jogador implements Serializable{
 	public void setPosicao(PosicaoEnum posicao) {
 		this.posicao = posicao;
 	}
+	
+	@JsonIgnore
 	public Time getTime() {
 		return time;
 	}

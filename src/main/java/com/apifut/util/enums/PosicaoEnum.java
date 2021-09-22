@@ -2,7 +2,7 @@ package com.apifut.util.enums;
 
 public enum PosicaoEnum {
 
-	FIXO("FIXO"), ALA_ESQ("ALA ESQUERDA"), ALA_DIR("ALA DIREITA"), PIVO("PIVÔ");
+	GOL("GOL"), ZAG("ZAG"), MEI("MEI"), ATA("ATA");
 
 	private String valor;
 
