@@ -1,5 +1,6 @@
 package com.apifut.DTO;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,9 @@ public class TimeDTO {
 	@Length (min=3, max = 100, message= "O nome deve conter entre 3 e 20 caracteres")
 	private String nome;
 	private String formacao;
+	
+	
+	
 	private Set<Jogador> jogadores = new HashSet();
 	
 	public void setJogadores(Set<Jogador> j ){

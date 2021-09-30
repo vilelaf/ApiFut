@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,6 +76,33 @@ public class TimeResource {
 		Optional<Time> obj = service.findByNomeEqualsIgnoreCase(nome);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	
+	@PutMapping(value = "/limparJogadores/{nomeTime}")
+	public ResponseEntity <Response<TimeDTO>> updateDeletingJogadores(@PathVariable("nomeTime") String nomeTime, BindingResult r){
+		
+		Response<TimeDTO> response = new Response<TimeDTO>();
+		
+		if (r.hasErrors()) {
+			r.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		}
+		
+		Optional<Time> obj = service.findByNomeEqualsIgnoreCase(nomeTime);
+		
+		obj.get().getJogadores().clear();
+		
+		TimeDTO timeDTO = c.convertTimeObjToTimeDTO(obj);
+		
+		Time t = service.updateByName(nomeTime, c.convertTimeDTOtoEntity(timeDTO));
+		
+		response.setData(c.convertEntityToTimeDTO(t));
+		
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+
+	}
+
+	
 	
 
 	

@@ -1,6 +1,7 @@
 package com.apifut.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -29,25 +30,38 @@ public class Jogador implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private PosicaoEnum posicao;
 	
+	private BigDecimal idade;
+	private String nacionalidade;
+	private Integer numero;
+
 	@ManyToOne
 	@JoinColumn(name="time_id")
 	private Time time;
-	
-	private Integer numero;
 	
 	public Jogador() {
 	
 	}
 	
-	public Jogador(Long id, String nome, PosicaoEnum posicao, Integer numero) {
+	public Jogador(Long id, String nome, PosicaoEnum posicao, BigDecimal idade, 
+			String nacionalidade, Integer numero) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.posicao = posicao;
 		this.numero = numero;
+		this.idade = idade;
+		this.nacionalidade = nacionalidade;
 	}
 	
 	
+	public String getNacionalidade() {
+		return nacionalidade;
+	}
+
+	public void setNacionalidade(String nacionalidade) {
+		this.nacionalidade = nacionalidade;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -66,7 +80,15 @@ public class Jogador implements Serializable{
 	public void setPosicao(PosicaoEnum posicao) {
 		this.posicao = posicao;
 	}
-	
+		
+	public BigDecimal getIdade() {
+		return idade;
+	}
+
+	public void setIdade(BigDecimal idade) {
+		this.idade = idade;
+	}
+
 	@JsonIgnore
 	public Time getTime() {
 		return time;

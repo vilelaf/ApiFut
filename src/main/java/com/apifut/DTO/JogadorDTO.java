@@ -4,6 +4,8 @@ import com.apifut.entities.Time;
 import com.apifut.util.enums.PosicaoEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -21,6 +23,9 @@ public class JogadorDTO {
 	@NotNull(message = "Em alguma posição o colega tem que jogar, defina a posição.")
 	@Pattern(regexp = "^(GOL|ZAG|MEI|ATA)$", message = "Para o tipo somente são aceitos os valores de GOL,ZAG,MEI ou ATA ") 
 	private String posicao;
+	private BigDecimal idade;
+	private String Nacionalidade;
+	
 	private Time time;
 	private Integer numero;
 

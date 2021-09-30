@@ -96,9 +96,7 @@ public class JogadorResource {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 		}
 		
-		Jogador j = new Jogador();
-		
-		j = service.update(id, c.convertJogadorDTOtoEntity(dto));
+		Jogador j = service.update(id, c.convertJogadorDTOtoEntity(dto));
 		
 		response.setData(c.convertEntityToJogadorDTO(j));
 		

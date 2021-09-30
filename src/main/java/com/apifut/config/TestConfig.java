@@ -1,7 +1,11 @@
 package com.apifut.config;
 
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,48 +31,49 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Jogador j0 = new Jogador (null,"Cruyff", PosicaoEnum.MEI, 14);
-		Jogador j1 = new Jogador (null,"Marques", PosicaoEnum.ZAG, 25);
-		Jogador j2 = new Jogador (null,"Rivaldo", PosicaoEnum.MEI, 2);
-		Jogador j3 = new Jogador (null,"Valdez", PosicaoEnum.GOL, 1);
-		Jogador j4 = new Jogador (null,"Iniesta", PosicaoEnum.MEI, 8);
-		Jogador j5 = new Jogador (null,"Romário", PosicaoEnum.ATA, 11);
-		Jogador j6 = new Jogador (null,"Messi", PosicaoEnum.ATA, 10);
-		Jogador j7 = new Jogador (null,"Giovanni", PosicaoEnum.ATA, 90);
-		Jogador j8 = new Jogador (null,"Puyol", PosicaoEnum.ZAG, 4);
-		Jogador j9 = new Jogador (null,"Milito", PosicaoEnum.ZAG, 12);
-		
-		Jogador j10 = new Jogador (null,"Etoo", PosicaoEnum.ATA, 9);
-		Jogador j11 = new Jogador (null,"Ter Stegen", PosicaoEnum.GOL, 50);
-		Jogador j12 = new Jogador (null,"Belleti", PosicaoEnum.ZAG, 14);
-		Jogador j13 = new Jogador (null,"Dani Alves", PosicaoEnum.ZAG,  22);
-		Jogador j14 = new Jogador (null,"Ronaldinho", PosicaoEnum.MEI, 80);
 		
 		
+		try {
+			String enderecoTimes = "C:\\Users\\rhcp_\\Desktop\\Plan Times Big Six";
+			
+			File endereco = new File(enderecoTimes);
+			File arquivos [] = endereco.listFiles();
+			int i = 0;
 		
-		
-		jogadorRepository.saveAll(Arrays.asList(j1,j2,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14));
-		
-		Set<Jogador>jogadores1 = new HashSet();
-		Set<Jogador>jogadores2 = new HashSet();
-		jogadores1.addAll(Arrays.asList(j1,j2,j3,j4,j5,j6,j7));
-		jogadores2.addAll(Arrays.asList(j8,j9,j10,j11,j12,j13,j14));
-
-	
-		Time t1 = new Time (null, "Barça 1", "4-3-3");
-		Time t2 = new Time (null, "Barça 2", "3-5-2");
-
-		jogadores1.forEach(j -> j.setTime(t1));
-		jogadores2.forEach(j -> j.setTime(t2));
-		timeRepository.save(t1);
-		timeRepository.save(t2);
-		
-		jogadorRepository.saveAll(Arrays.asList(j1,j2,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14));
-		
-		
-	}
-	
-	
-	
-	
+			for (int j = arquivos.length; i < j; i++) {
+				File escalacao = arquivos[i];
+				BufferedReader br = new BufferedReader(new FileReader(escalacao));
+				
+				String line = br.readLine();
+				Time time = new Time(null,line,"4-3-3");
+				timeRepository.save(time);
+				
+				int count = 0;
+				Set<Jogador> jogadores = new HashSet<Jogador>();
+				line = br.readLine();
+				while (line!= null) {
+					if (count == 0) {
+						line = br.readLine();
+						System.out.println("Criando o time " + time.getNome() + ".");
+					}
+					
+					String strings[] = line.split(",");
+					Jogador j0 = new Jogador (null,strings[0],PosicaoEnum.getEnum(strings[1]),new BigDecimal(strings[2]),strings[3],Integer.parseInt(strings[4]));
+					j0.setTime(time);
+					jogadorRepository.save(j0);
+					jogadores.add(j0);
+					
+					count++;
+					line = br.readLine();
+				}
+			}	
+		} 
+		catch(RuntimeException e) {
+			e.printStackTrace();
+		}
+		finally {
+			
+		}
+	}	
 }
+		

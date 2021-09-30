@@ -2,7 +2,7 @@ package com.apifut.util.enums;
 
 public enum PosicaoEnum {
 
-	GOL("GOL"), ZAG("ZAG"), MEI("MEI"), ATA("ATA");
+	GOL("Goalkeeper"), ZAG("Defender"), MEI("Midfielder"), ATA("Forward");
 
 	private String valor;
 

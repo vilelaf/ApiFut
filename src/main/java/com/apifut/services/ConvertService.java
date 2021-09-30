@@ -1,11 +1,16 @@
 package com.apifut.services;
 
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 import com.apifut.DTO.JogadorDTO;
 import com.apifut.DTO.TimeDTO;
 import com.apifut.entities.Jogador;
 import com.apifut.entities.Time;
+import com.apifut.services.exceptions.ResourceNotFoundException;
 import com.apifut.util.enums.PosicaoEnum;
 
 @Service
@@ -18,6 +23,8 @@ public class ConvertService {
 		j.setNome(dto.getNome());
 		j.setNumero(dto.getNumero());
 		j.setPosicao(PosicaoEnum.getEnum(dto.getPosicao()));
+		j.setIdade(dto.getIdade());
+		j.setNacionalidade(dto.getNacionalidade());
 		j.setTime(dto.getTime());
 		
 		return j;
@@ -30,7 +37,9 @@ public class ConvertService {
 		dto.setId(j.getId());
 		dto.setNome(j.getNome());
 		dto.setNumero(j.getNumero());
-		dto.setPosicao(j.getPosicao().getValor());		
+		dto.setPosicao(j.getPosicao().getValor());	
+		dto.setIdade(j.getIdade());
+		dto.setNacionalidade(j.getNacionalidade());
 		dto.setTime(j.getTime());
 		
 		return dto;
@@ -56,8 +65,28 @@ public class ConvertService {
 		
 		dto.setId(t.getId());
 		dto.setFormacao(t.getFormacao());
+		dto.setNome(t.getNome());
 		dto.setJogadores(t.getJogadores());
 
 		return dto;
 	}
+	
+	public TimeDTO convertTimeObjToTimeDTO(Optional<Time> obj) {
+		
+		TimeDTO dto = new TimeDTO();
+		
+		try {
+			dto.setId(obj.get().getId());
+			dto.setNome(obj.get().getNome());
+			dto.setFormacao(obj.get().getFormacao());
+			dto.setJogadores(obj.get().getJogadores());
+			return dto;
+		}
+		catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(obj.get().getId());
+		}
+		
+	}
+	
+	
 }

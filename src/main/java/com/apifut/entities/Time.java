@@ -33,7 +33,7 @@ public class Time implements Serializable {
 	private String formacao;
 
 	@OneToMany(mappedBy = "time")
-	private Set<Jogador> jogadores = new HashSet();
+	private Set<Jogador> jogadores = new HashSet<Jogador>();
 
 	public Time(Long id, String nome, String formacao) {
 
@@ -72,12 +72,22 @@ public class Time implements Serializable {
 	}
 
 	
+	
+	@Override
+	public String toString() {
+		return "Time [id=" + id + ", nome=" + nome + ", formacao=" + formacao + ", jogadores=" + jogadores + "]";
+	}
+	
 	public Set<Jogador> getJogadores() {
 		Set <Jogador> set = new HashSet();
 		for (Jogador j : jogadores) {
 			set.add(j);
 		}
 		return set;
+	}
+
+	public void setTodosOsJogadores(Set <Jogador> jogadores) {
+		this.jogadores = jogadores;
 	}
 
 }
