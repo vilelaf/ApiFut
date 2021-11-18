@@ -1,4 +1,4 @@
-package com.apifut.resources;
+package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,17 +21,21 @@ import com.apifut.DTO.JogadorDTO;
 import com.apifut.DTO.TimeDTO;
 import com.apifut.entities.Response;
 import com.apifut.entities.Time;
+import com.apifut.mapper.JogadorMapper;
+import com.apifut.mapper.TimeMapper;
 import com.apifut.services.ConvertService;
 import com.apifut.services.TimeService;
 
 @RestController
 @RequestMapping (value = "/times")
-public class TimeResource {
+public class TimeController {
 
 	@Autowired
 	private TimeService service;
 	@Autowired
 	private ConvertService c;
+	
+	private final TimeMapper timeMapper = TimeMapper.INSTANCE;
 
 	@GetMapping
 	public ResponseEntity<List<Response<TimeDTO>>> findAll(@Valid @RequestBody TimeDTO dto, BindingResult r){
@@ -64,7 +68,7 @@ public class TimeResource {
 		}
 		
 		Time t = service.findById(id);
-		dto = c.convertEntityToTimeDTO(t);
+		dto = timeMapper.toDTO(t);
 		response.setData(dto);
 		
 		return ResponseEntity.ok().body(response);
@@ -94,9 +98,9 @@ public class TimeResource {
 		
 		TimeDTO timeDTO = c.convertTimeObjToTimeDTO(obj);
 		
-		Time t = service.updateByName(nomeTime, c.convertTimeDTOtoEntity(timeDTO));
+		Time t = service.updateByName(nomeTime, timeMapper.toModel(timeDTO));
 		
-		response.setData(c.convertEntityToTimeDTO(t));
+		response.setData(timeMapper.toDTO(t));
 		
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 

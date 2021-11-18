@@ -17,6 +17,13 @@ import com.apifut.util.enums.PosicaoEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "jogadores")
 public class Jogador implements Serializable{
@@ -54,55 +61,13 @@ public class Jogador implements Serializable{
 	}
 	
 	
-	public String getNacionalidade() {
-		return nacionalidade;
-	}
 
-	public void setNacionalidade(String nacionalidade) {
-		this.nacionalidade = nacionalidade;
-	}
-
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public PosicaoEnum getPosicao() {
-		return posicao;
-	}
-	public void setPosicao(PosicaoEnum posicao) {
-		this.posicao = posicao;
-	}
-		
-	public BigDecimal getIdade() {
-		return idade;
-	}
-
-	public void setIdade(BigDecimal idade) {
-		this.idade = idade;
-	}
 
 	@JsonIgnore
 	public Time getTime() {
 		return time;
 	}
-	public void setTime(Time time) {
-		this.time = time;
-	}
-	public Integer getNumero() {
-		return numero;
-	}
-	public void setNumero(Integer numero) {
-		this.numero = numero;
-	}
-	
+
 	
 	@Override
 	public int hashCode() {

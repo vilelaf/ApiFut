@@ -34,7 +34,7 @@ public class TestConfig implements CommandLineRunner {
 		
 		
 		try {
-			String enderecoTimes = "C:\\Users\\rhcp_\\Desktop\\Plan Times Big Six";
+			String enderecoTimes = "C:\\temp\\Plan Times Big Six";
 			
 			File endereco = new File(enderecoTimes);
 			File arquivos [] = endereco.listFiles();

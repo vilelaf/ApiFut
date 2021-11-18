@@ -1,7 +1,8 @@
-package com.apifut.resources;
+package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -21,17 +22,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.apifut.DTO.JogadorDTO;
 import com.apifut.entities.Jogador;
 import com.apifut.entities.Response;
+import com.apifut.mapper.JogadorMapper;
 import com.apifut.services.ConvertService;
 import com.apifut.services.JogadorService;
 
 @RestController
 @RequestMapping (value = "/jogadores")
-public class JogadorResource {
+public class JogadorController {
 
 	@Autowired
-	private ConvertService c; 
-	@Autowired
 	private JogadorService service;
+	
+	private final JogadorMapper jogadorMapper = JogadorMapper.INSTANCE; // java.lang.ExceptionInInitializerError: null
 	
 	
 	@GetMapping
@@ -43,15 +45,17 @@ public class JogadorResource {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 		
-		
-		List <Jogador> list = service.findAll();
-		for(int i = 0; i< list.size(); i++) {
+
+		List<JogadorDTO> dtoList = service.findAll()
+				.stream()
+				.map(jogadorMapper::toDTO)
+				.collect(Collectors.toList());
+		for (JogadorDTO jdto : dtoList) {
 			Response<JogadorDTO> d1 = new Response<JogadorDTO>();
-			dto = c.convertEntityToJogadorDTO(list.get(i));
-			d1.setData(dto);
+			d1.setData(jdto);
 			response.add(d1);
 		}
-
+		
 		return ResponseEntity.ok().body(response);
 		
 	}
@@ -65,7 +69,7 @@ public class JogadorResource {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 		}
 		
-		response.setData(c.convertEntityToJogadorDTO(service.findById(id)));
+		response.setData(jogadorMapper.toDTO(service.findById(id)));
 		
 		return ResponseEntity.ok().body(response);
 		
@@ -81,8 +85,8 @@ public class JogadorResource {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}	
 		
-		Jogador j = service.save(c.convertJogadorDTOtoEntity(dto));
-		response.setData(c.convertEntityToJogadorDTO(j));
+		Jogador j = service.save(jogadorMapper.toModel(dto));
+		response.setData(jogadorMapper.toDTO(j));
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 		
 	}
@@ -96,11 +100,10 @@ public class JogadorResource {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 		}
 		
-		Jogador j = service.update(id, c.convertJogadorDTOtoEntity(dto));
+		Jogador j = service.update(id, jogadorMapper.toModel(dto));
 		
-		response.setData(c.convertEntityToJogadorDTO(j));
-		
-		
+		response.setData(jogadorMapper.toDTO(j));
+
 		return ResponseEntity.ok().body(response);
 		
 	}
