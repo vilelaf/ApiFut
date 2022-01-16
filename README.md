@@ -17,3 +17,5 @@ O propósito é o uso e manipulação de escalações clubes, criação de cená
 
 ## Autor
 Fábio Vilela
+
+https://www.linkedin.com/in/vileladev/
