@@ -19,7 +19,7 @@ public class JogadorDTO {
 
 	private Long id;
 	private String nome;
-	@NotNull(message = "Em alguma posição o colega tem que jogar, defina a posição.")
+	@NotNull(message =  "Defina a posição.")
 	@Pattern(regexp = "^(GOL|ZAG|MEI|ATA)$", message = "Para o tipo somente são aceitos os valores de GOL,ZAG,MEI ou ATA ") 
 	private String posicao;
 	private BigDecimal idade;
